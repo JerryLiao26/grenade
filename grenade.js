@@ -4,20 +4,21 @@ let G = {
   W: "Warning",
   E: "Error",
 
-  // Pack data
-  pack: function(first, ...others) {
-    let data = []
-    if (first !== undefined) {
-      data.push(first)
-      for (let each of others) {
-        data.push(each)
+  // Select element
+  target: function(selector) {
+    if (typeof selector == "string" ) {
+      let nodeList = document.querySelectorAll(selector)
+      // Check selected nodes
+      if (nodeList.length >= 1) {
+        let gr = new grenade(nodeList)
+        return gr
       }
-      console.log('data:', data);
-      let gr = new grenade(data)
-      return gr
+      else {
+        G.logger(G.E, "no target selected")
+      }
     }
     else {
-      G.logger(G.E, "No material for grenade pack")
+      G.logger(G.E, "wrong type of target selector")
     }
   },
 
@@ -42,28 +43,65 @@ let G = {
 
 // Class grenade
 class grenade {
-  constructor(data) {
-    if (Array.isArray(data)) {
-      this.data = data
-    }
-    else {
-      G.logger(G.E, "cannot pack fault material(s) in grenade")
-    }
-  }
-  // Select target
-  throw(selector) {
-    if (typeof selector == "string" ) {
-      let group = document.querySelectorAll(selector)
-      // Check selected nodes
-      if (group.length >= 1) {
-        console.log('selected:', group);
+  constructor(nodeList) {
+    // Needed to render 'src' attr instead of 'innerHTML'
+    this.srcNode = ["IMG"]
+    this.valueNode = ["INPUT"]
+
+    // Render content to node
+    this.renderer = function(node, content) {
+      if (this.srcNode.includes(node.tagName)) {
+        node.setAttribute('src', content)
+      }
+      else if (this.valueNode.includes(node.tagName)) {
+        node.setAttribute('value', content)
       }
       else {
-        G.logger(G.E, "no target selected")
+        node.innerHTML = content
       }
+    }
+
+    // Store list
+    if (nodeList instanceof NodeList) {
+      this.list = nodeList
     }
     else {
       G.logger(G.E, "wrong type of target to throw")
+    }
+  }
+  // Render data
+  throw(data) {
+    if (data !== undefined) {
+      // Array render
+      if (Array.isArray(data)) {
+        for (let eachNode of this.list) {
+          // Filter nodes
+          let count = -1
+          let len = data.length
+          let gNodes = eachNode.querySelectorAll('.g-node')
+          for (let eachG of gNodes) {
+            count = (count + 1) % len
+            this.renderer(eachG, data[count])
+          }
+        }
+      }
+      // Object render
+      else if (typeof data == "object") {
+        for (let eachNode of this.list) {
+          // Filter nodes
+          let gNodes = eachNode.querySelectorAll('.g-node')
+          for (let eachG of gNodes) {
+            let key = eachG.getAttribute('g-key')
+            this.renderer(eachG, data[key])
+          }
+        }
+      }
+      else {
+        G.logger(G.E, "Not supported data type for grenade")
+      }
+    }
+    else {
+      G.logger(G.E, "No data in grenade")
     }
   }
 }
