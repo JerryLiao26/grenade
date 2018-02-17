@@ -46,7 +46,7 @@ class grenade {
   constructor(nodeList) {
     // Special renders
     this.hrefNode = ["A"]
-    this.srcNode = ["IMG", "VIDEO", "SCRIPT", "IFRAME"]
+    this.srcNode = ["IMG", "VIDEO", "IFRAME"]
     this.valueNode = ["INPUT", "OPTION"]
 
     // Render content to node
