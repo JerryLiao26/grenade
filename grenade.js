@@ -44,10 +44,10 @@ let G = {
 // Class grenade
 class grenade {
   constructor(nodeList) {
-    // Needed to render 'src' attr instead of 'innerHTML'
+    // Special renders
     this.hrefNode = ["A"]
-    this.srcNode = ["IMG"]
-    this.valueNode = ["INPUT"]
+    this.srcNode = ["IMG", "VIDEO", "SCRIPT", "IFRAME"]
+    this.valueNode = ["INPUT", "OPTION"]
 
     // Render content to node
     this.renderer = function(node, content) {
