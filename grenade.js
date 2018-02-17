@@ -45,6 +45,7 @@ let G = {
 class grenade {
   constructor(nodeList) {
     // Needed to render 'src' attr instead of 'innerHTML'
+    this.hrefNode = ["A"]
     this.srcNode = ["IMG"]
     this.valueNode = ["INPUT"]
 
@@ -52,6 +53,9 @@ class grenade {
     this.renderer = function(node, content) {
       if (this.srcNode.includes(node.tagName)) {
         node.setAttribute('src', content)
+      }
+      else if (this.hrefNode.includes(node.tagName)) {
+        node.setAttribute('href', content)
       }
       else if (this.valueNode.includes(node.tagName)) {
         node.setAttribute('value', content)
