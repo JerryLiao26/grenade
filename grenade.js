@@ -4,24 +4,6 @@ let G = {
   W: "Warning",
   E: "Error",
 
-  // Logger
-  gLogger: function(level, content) {
-    // Build string
-    let thisDate = new Date();
-    let prefix = ""
-    let timeStr = "[" + thisDate.toLocaleString() + "]"
-    let levelStr = "[" + level + "]"
-    if (level === I) {
-      console.info(timeStr, levelStr, content)
-    }
-    else if (level === W) {
-      console.warn(timeStr, levelStr, content)
-    }
-    else if (level === E) {
-      console.error(timeStr, levelStr, content)
-    }
-  },
-
   // Pack data
   pack: function(first, ...others) {
     let data = []
@@ -35,7 +17,25 @@ let G = {
       return gr
     }
     else {
-      gLogger(E, "No material for grenade pack")
+      G.logger(G.E, "No material for grenade pack")
+    }
+  },
+
+  // Logger
+  logger: function(level, content) {
+    // Build string
+    let thisDate = new Date();
+    let prefix = ""
+    let timeStr = "[" + thisDate.toLocaleString() + "]"
+    let levelStr = "[" + level + "]"
+    if (level === G.I) {
+      console.info(timeStr, levelStr, content)
+    }
+    else if (level === G.W) {
+      console.warn(timeStr, levelStr, content)
+    }
+    else if (level === G.E) {
+      console.error(timeStr, levelStr, content)
     }
   }
 }
@@ -47,7 +47,7 @@ class grenade {
       this.data = data
     }
     else {
-      gLogger(E, "cannot pack fault material(s) in grenade")
+      G.logger(G.E, "cannot pack fault material(s) in grenade")
     }
   }
   // Select target
@@ -59,11 +59,11 @@ class grenade {
         console.log('selected:', group);
       }
       else {
-        gLogger(E, "no target selected")
+        G.logger(G.E, "no target selected")
       }
     }
     else {
-      gLogger(E, "wrong type of param for G()")
+      G.logger(G.E, "wrong type of target to throw")
     }
   }
 }
