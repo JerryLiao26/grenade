@@ -1,6 +1,9 @@
 # grenade
 An easy-to-use out-of-the-box rendering tool for Web
 
+## Minified Release
+[v0.1](https://github.com/JerryLiao26/grenade/releases/download/v0.1/grenade.min.js)
+
 ## Usage
 - For a ```list``` data
 ```html
