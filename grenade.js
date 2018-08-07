@@ -51,17 +51,22 @@ class grenade {
 
     // Render content to node
     this.renderer = function(node, content) {
-      if (this.srcNode.includes(node.tagName)) {
-        node.setAttribute('src', content)
-      }
-      else if (this.hrefNode.includes(node.tagName)) {
-        node.setAttribute('href', content)
-      }
-      else if (this.valueNode.includes(node.tagName)) {
-        node.setAttribute('value', content)
-      }
-      else {
-        node.innerHTML = content
+      if (typeof content !== 'object') {
+        if (this.srcNode.includes(node.tagName)) {
+          node.setAttribute('src', content)
+        }
+        else if (this.hrefNode.includes(node.tagName)) {
+          node.setAttribute('href', content)
+        }
+        else if (this.valueNode.includes(node.tagName)) {
+          node.setAttribute('value', content)
+        }
+        else {
+          node.innerHTML = content
+        }
+      } else {
+        const key = 'data-' + content.key
+        node.setAttribute(key, content.value)
       }
     }
 
@@ -116,6 +121,11 @@ class grenade {
                 let key = eachG.getAttribute('g-key')
                 if (key === "$index") {
                   this.renderer(eachG, count+1)
+                }
+                else if (key.startsWith("$data")) {
+                  const attrKey = key.split(':')[1]
+                  const attrVal = eachDatum[attrKey]
+                  this.renderer(eachG, {key: attrKey, value: attrVal})
                 }
                 else {
                   this.renderer(eachG, eachDatum[key])
