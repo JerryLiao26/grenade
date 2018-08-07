@@ -10,7 +10,6 @@ let G = {
       let nodeList = document.querySelectorAll(selector)
       // Check selected nodes
       if (nodeList.length >= 1) {
-        console.log('nodeList:', nodeList)
         let gr = new grenade(nodeList)
         return gr
       }
