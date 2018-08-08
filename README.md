@@ -1,4 +1,8 @@
 # grenade
+
+[![codebeat badge](https://codebeat.co/badges/fb7592cd-61ae-4f65-967f-656fbb69ae02)](https://codebeat.co/projects/github-com-jerryliao26-grenade-master)
+[![License](https://img.shields.io/github/license/JerryLiao26/grenade.svg)](https://opensource.org/licenses/MIT)
+
 An easy-to-use out-of-the-box rendering tool for Web
 
 ## Minified Release
